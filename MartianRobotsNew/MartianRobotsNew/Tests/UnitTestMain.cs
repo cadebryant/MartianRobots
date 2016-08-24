@@ -16,13 +16,14 @@ namespace MartianRobotsNew.Tests
         private readonly string[] _bot1Instructions = { "1 1 E", "RFRFRFRF" };
         private readonly string[] _bot2Instructions = { "3 2 N", "FRRFLLFFRRFLL" };
         private readonly string[] _bot3Instructions = { "0 3 W", "LLFFFLFLFL" };
+
         [TestCase]
         public void TestRobots()
         {
             Mars world = Mars.GetInstance().InitializeWorld(_initialization);
-            var bot1 = new MarsBot();
-            var bot2 = new MarsBot();
-            var bot3 = new MarsBot();
+            var bot1 = new MarsBot(1);
+            var bot2 = new MarsBot(2);
+            var bot3 = new MarsBot(3);
 
             foreach (var inst in _bot1Instructions)
             {

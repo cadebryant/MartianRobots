@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Resources;
 using System.Runtime.Remoting;
@@ -14,8 +15,9 @@ namespace MartianRobotsNew.Robot
     {
         private Mars _world;
 
-        public MarsBot()
+        public MarsBot(int id)
         {
+            ID = id;
             Active = true;
             State = new State
             {
@@ -26,6 +28,7 @@ namespace MartianRobotsNew.Robot
 
         public bool Active { get; set; }
         public State State { get; set; }
+        public int ID { get; set; }
 
         public void ProcessInstructions(string instructionString)
         {
@@ -85,13 +88,24 @@ namespace MartianRobotsNew.Robot
 
         public void RotateOrMove(Direction direction)
         {
+            var num = (int)State.CurrOrientation;
+            var numL = 0;
+            switch(num)
+            {
+                case 0:
+                    numL = 3;
+                    break;
+                default:
+                    numL = num - 1;
+                    break;
+            }
             switch (direction)
             {
                 case Direction.R:
-                    State.CurrOrientation = (Orientation)((int)(State.CurrOrientation + 1) % 4);
+                    State.CurrOrientation = (Orientation)((num + 1) % 4);
                     break;
                 case Direction.L:
-                    State.CurrOrientation = (Orientation)((int)(State.CurrOrientation - 1) % 4);
+                    State.CurrOrientation = (Orientation)(numL);
                     break;
                 case Direction.F:
                     Move();
@@ -105,32 +119,33 @@ namespace MartianRobotsNew.Robot
             switch (State.CurrOrientation)
             {
                 case Orientation.E:
-                    MoveTo(State.CurrPosition.Item1 + 1, State.CurrPosition.Item2);
+                    MoveTo(State.CurrPosition.Item1 + 1, State.CurrPosition.Item2, Orientation.E);
                     break;
                 case Orientation.N:
-                    MoveTo(State.CurrPosition.Item1, State.CurrPosition.Item2 + 1);
+                    MoveTo(State.CurrPosition.Item1, State.CurrPosition.Item2 + 1, Orientation.N);
                     break;
                 case Orientation.S:
-                    MoveTo(State.CurrPosition.Item1, State.CurrPosition.Item2 - 1);
+                    MoveTo(State.CurrPosition.Item1, State.CurrPosition.Item2 - 1, Orientation.S);
                     break;
                 case Orientation.W:
-                    MoveTo(State.CurrPosition.Item1 - 1, State.CurrPosition.Item2);
+                    MoveTo(State.CurrPosition.Item1 - 1, State.CurrPosition.Item2, Orientation.W);
                     break;
             }  
         }
 
-        public void MoveTo(int x, int y, Orientation orientation = default(Orientation))
+        public void MoveTo(int x, int y, Orientation orientation)
         {
-            if ( !_world.PointIsScented(x, y))
+            if (Active && !_world.PointIsScented(x, y))
             {
                 State.PrevPosition = State.CurrPosition;
                 State.CurrPosition = new Tuple<int, int>(x, y);
-                State.CurrOrientation = orientation == default(Orientation) ? State.CurrOrientation : orientation;
-                if (x >= _world.XRange || y >= _world.YRange)
+                State.PrevOrientation = State.CurrOrientation;
+                State.CurrOrientation = orientation;
+                if (x > _world.XRange || y > _world.YRange)
                 {
                     _world.MarkPointScented(State.PrevPosition.Item1, State.PrevPosition.Item2);
                     State.CurrPosition = State.PrevPosition;
-                    State.CurrPosition = State.PrevPosition;
+                    State.CurrOrientation = State.PrevOrientation;
                     Active = false;
                 }
             }

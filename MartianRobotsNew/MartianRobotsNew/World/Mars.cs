@@ -68,9 +68,9 @@ namespace MartianRobotsNew.World
             _instance.XRange = xRange;
             _instance.YRange = yRange;
             _instance.Surface = new Dictionary<Tuple<int, int>, bool>();
-            for (var i = 0; i < XRange; i++)
+            for (var i = 0; i <= XRange; i++)
             {
-                for (var j = 0; j < YRange; j++)
+                for (var j = 0; j <= YRange; j++)
                 {
                     _instance.Surface[new Tuple<int, int>(i, j)] = false;
                 }

@@ -76,3 +76,4 @@ If I were creating this application for an end user, I would estimate seven busi
 	(5) End user acceptance - 1 day.
 	(6) Deploy to production server and sanity check - 1 day.
 
+There is a lot of refactoring that could be done with this application; for example, instructions could be stored in a config file or database table (rather than hard-coded in the application).  In addition, a user-friendly web interface or desktop application could be created to enable the user to run the app and pass in his/her own parameters.  Time constraints have prevented me from implementing this.
