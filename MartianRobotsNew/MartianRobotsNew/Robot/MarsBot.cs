@@ -31,8 +31,6 @@ namespace MartianRobotsNew.Robot
         {
             if (Active) //Ignore if robot has fallen off surface
             {
-                var errorMsg =
-                    "instructionString format not correct; must be of form \"num num char\" or string of chars.";
                 try
                 {
                     var arrInstructionString = instructionString.Split(' ');
@@ -59,22 +57,28 @@ namespace MartianRobotsNew.Robot
                                                     }.Contains(c.ToString()));
                     if (isPosition)
                     {
-                        var orientation = (Orientation) Enum.Parse(typeof(Orientation), arrInstructionString[2]);
-                        MoveTo(int.Parse(arrInstructionString[0]), int.Parse(arrInstructionString[1]), orientation);
+                        if (Active)
+                        {
+                            var orientation = (Orientation) Enum.Parse(typeof(Orientation), arrInstructionString[2]);
+                            MoveTo(int.Parse(arrInstructionString[0]), int.Parse(arrInstructionString[1]), orientation);
+                        }
                     }
                     else if (isNavigation)
                     {
                         foreach (var c in chrInstructionString)
                         {
-                            var direction = (Direction) Enum.Parse(typeof(Direction), c.ToString());
-                            RotateOrMove(direction);
+                            if (Active)
+                            {
+                                var direction = (Direction) Enum.Parse(typeof(Direction), c.ToString());
+                                RotateOrMove(direction);
+                            }
                         }
                     }
 
                 }
                 catch (Exception e)
                 {
-                    throw new ArgumentException(errorMsg);
+                    throw;
                 } 
             }
         }
@@ -117,16 +121,18 @@ namespace MartianRobotsNew.Robot
 
         public void MoveTo(int x, int y, Orientation orientation = default(Orientation))
         {
-            State.PrevPosition = State.CurrPosition;
-            if (x >= _world.XRange || y >= _world.YRange)
+            if ( !_world.PointIsScented(x, y))
             {
-                _world.MarkPointScented(State.PrevPosition.Item1, State.PrevPosition.Item2);
-                Active = false;
-            }
-            else if (!_world.PointIsScented(x, y))
-            {
+                State.PrevPosition = State.CurrPosition;
                 State.CurrPosition = new Tuple<int, int>(x, y);
                 State.CurrOrientation = orientation == default(Orientation) ? State.CurrOrientation : orientation;
+                if (x >= _world.XRange || y >= _world.YRange)
+                {
+                    _world.MarkPointScented(State.PrevPosition.Item1, State.PrevPosition.Item2);
+                    State.CurrPosition = State.PrevPosition;
+                    State.CurrPosition = State.PrevPosition;
+                    Active = false;
+                }
             }
         }
     }

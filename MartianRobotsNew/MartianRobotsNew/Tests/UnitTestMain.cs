@@ -13,9 +13,9 @@ namespace MartianRobotsNew.Tests
     public class UnitTestMain
     {
         private string _initialization = "5 3";
-        private string[] _bot1Instructions = { "1 1 E", "RFRFRFRF" };
-        private string[] _bot2Instructions = { "3 2 N", "FRRFLLFFRRFLL" };
-        private string[] _bot3Instructions = { "0 3 W", "LLFFFLFLFL" };
+        private readonly string[] _bot1Instructions = { "1 1 E", "RFRFRFRF" };
+        private readonly string[] _bot2Instructions = { "3 2 N", "FRRFLLFFRRFLL" };
+        private readonly string[] _bot3Instructions = { "0 3 W", "LLFFFLFLFL" };
         [TestCase]
         public void TestRobots()
         {
@@ -39,9 +39,12 @@ namespace MartianRobotsNew.Tests
                 bot3.ProcessInstructions(inst);
             }
 
-            Assert.AreEqual(bot1.State.CurrPosition, new Tuple<int, int>(1, 1));
-            Assert.AreEqual(bot2.State.CurrPosition, new Tuple<int, int>(3, 3));
-            Assert.AreEqual(bot3.State.CurrPosition, new Tuple<int, int>(2, 3));
+            Assert.AreEqual(new Tuple<int, int>(1, 1), bot1.State.CurrPosition);
+            Assert.AreEqual(Orientation.E, bot1.State.CurrOrientation);
+            Assert.AreEqual(new Tuple<int, int>(3, 3), bot2.State.CurrPosition);
+            Assert.AreEqual(Orientation.N, bot2.State.CurrOrientation);
+            Assert.AreEqual(new Tuple<int, int>(2, 3), bot3.State.CurrPosition);
+            Assert.AreEqual(Orientation.S, bot3.State.CurrOrientation);
         }
     }
 }

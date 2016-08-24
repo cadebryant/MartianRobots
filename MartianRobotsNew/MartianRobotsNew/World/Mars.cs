@@ -96,7 +96,12 @@ namespace MartianRobotsNew.World
         /// <returns></returns>
         public bool PointIsScented(int x, int y)
         {
-            return Surface[new Tuple<int, int>(x, y)];
+            bool result;
+            if (Surface.TryGetValue(new Tuple<int, int>(x, y), out result))
+            {
+                return result;
+            }
+            return false;
         }
 
         public static int MaxSize = 50;
