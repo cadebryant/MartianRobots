@@ -79,13 +79,24 @@ namespace MartianRobotsNew.World
         }
 
         /// <summary>
-        /// Indicates that a robot has "fallen off" the world beyond this point.
+        /// Sets a point to indicate that a robot has "fallen off" the world beyond this point.
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
         public void MarkPointScented(int x, int y)
         {
             Surface[new Tuple<int, int>(x, y)] = true;
+        }
+
+        /// <summary>
+        /// Returns true if a robot has "fallen off" beyond this point.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public bool PointIsScented(int x, int y)
+        {
+            return Surface[new Tuple<int, int>(x, y)];
         }
 
         public static int MaxSize = 50;

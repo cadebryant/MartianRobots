@@ -49,7 +49,9 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Robot\Enums.cs" />
     <Compile Include="Robot\MarsBot.cs" />
+    <Compile Include="Robot\State.cs" />
     <Compile Include="Tests\UnitTestMain.cs" />
     <Compile Include="World\Mars.cs" />
   </ItemGroup>
