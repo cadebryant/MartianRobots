@@ -58,3 +58,21 @@ LLFFFLFLFL
 3 3 N LOST
 
 2 3 S
+
+##The Solution
+
+In designing the solution, I decided to go with a fully object-oriented approach (rather than simply procedural).  I created a class model for both the Robot and the Mars-World, with the assumtion that the Mars-World would be a singleton shared by all Robots.
+
+This is important, because when a Robot "falls off" the surface, the Mars surface needs to be appropriately marked for the benefit of the other Robots (i.e., so they don't also fall off).  This would be impractical if each Robot had its own instance of the Mars surface.
+
+##Estimation
+
+If I were creating this application for an end user, I would estimate seven business days, as follows:
+
+	(1) Time to "code complete" - 2 days.
+	(2) Local unit testing - 1 day.
+	(3) Peer review by another developer - 1 day.
+	(4) QA review - 1 day.
+	(5) End user acceptance - 1 day.
+	(6) Deploy to production server and sanity check - 1 day.
+

@@ -17,6 +17,10 @@ namespace MartianRobotsNew.Robot
         public MarsBot()
         {
             Active = true;
+            State = new State
+            {
+                CurrPosition = new Tuple<int, int>(0, 0)
+            };
             _world = Mars.GetInstance();
         }
 
@@ -68,7 +72,7 @@ namespace MartianRobotsNew.Robot
                     }
 
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     throw new ArgumentException(errorMsg);
                 } 
@@ -80,10 +84,10 @@ namespace MartianRobotsNew.Robot
             switch (direction)
             {
                 case Direction.R:
-                    State.CurrOrientation = (Orientation)((int)State.CurrOrientation) + 1 % 4;
+                    State.CurrOrientation = (Orientation)((int)(State.CurrOrientation + 1) % 4);
                     break;
                 case Direction.L:
-                    State.CurrOrientation = (Orientation)((int)State.CurrOrientation) - 1 % 4;
+                    State.CurrOrientation = (Orientation)((int)(State.CurrOrientation - 1) % 4);
                     break;
                 case Direction.F:
                     Move();
