@@ -1,5 +1,5 @@
-#Martian Robots
-Coding assessment for GlobalEdit
+# Martian Robots
+
 
 ## Problem: Martian Robots
 
