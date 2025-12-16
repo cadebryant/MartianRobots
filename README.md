@@ -59,13 +59,13 @@ LLFFFLFLFL
 
 2 3 S
 
-##The Solution
+## The Solution
 
 In designing the solution, I decided to go with a fully object-oriented approach (rather than simply procedural).  I created a class model for both the Robot and the Mars-World, with the assumtion that the Mars-World would be a singleton shared by all Robots.
 
 This is important, because when a Robot "falls off" the surface, the Mars surface needs to be appropriately marked for the benefit of the other Robots (i.e., so they don't also fall off).  This would be impractical if each Robot had its own instance of the Mars surface.
 
-##Estimation
+## Estimation
 
 If I were creating this application for an end user, I would estimate seven business days, as follows:
 
@@ -75,5 +75,3 @@ If I were creating this application for an end user, I would estimate seven busi
 	(4) QA review - 1 day.
 	(5) End user acceptance - 1 day.
 	(6) Deploy to production server and sanity check - 1 day.
-
-There is a lot of refactoring that could be done with this application; for example, instructions could be stored in a config file or database table (rather than hard-coded in the application).  In addition, a user-friendly web interface or desktop application could be created to enable the user to run the app and pass in his/her own parameters.  Time constraints have prevented me from implementing this.
